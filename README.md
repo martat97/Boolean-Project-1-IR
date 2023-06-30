@@ -1,4 +1,6 @@
-# Boolean Project #1 Information Retrieval 2022/23
+# Boolean Project #1 IR 2022/23 - Marta Tosolini
+
+## Main Functionalities
 
 Write an IR system able to answer:
 
@@ -12,22 +14,21 @@ Write an IR system able to answer:
 
 • Evaluate the system on a set of test queries.
 
+## Libraries
 
-WARNING: numpy, pandas, nltk libraries must be installed to run the programs
+**numpy**, **pandas**, **nltk** libraries must be installed to run the programs
 
-Instructions for the different executable
 
-1. MAIN: DATASET ALREADY CHOSEN
-Main version with the dataset already chosen.
-Run main.py to execute the program.
+## How to run the System
 
-2. MAIN INPUT DATASET
-You have to put in input the location of the dataset and the column of the dataset that will be used to create the index
-Run main_input_dataset.py to execute the program.
+1. **Main Version** with the dataset already chosen.
+Run **main.py** to execute the program.
 
-3. TESTS
-There are three different kind of tests that were used to test the system (originally created on jupyter notebook):
-Functionalities (test if the program actually works), Effectiveness (precision and recall measures), Performance (timing measures).
-Tests can be run on jupyter notebook
+2. **Input Dataset Version** in which you have to put in input the location of the dataset, and the column of the dataset that will be used to create the index.
+Run **main_input_dataset.py** to execute the program.
+
+3. **Tests**: There are three different kind of tests that were used to test the system (originally created on jupyter notebook):
+**Functionalities** (test if the program actually works), **Effectiveness** (precision and recall measures), **Performance** (timing measures).
+Tests can be run on **jupyter notebook**
 
 
