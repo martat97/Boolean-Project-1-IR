@@ -56,7 +56,7 @@ class BRetrievalSystem:
         for i in range(0,len(data)):
             data["msg_lower"][i] = nltk.word_tokenize(data["msg_lower"][i])
 
-            #4 Stopwords
+        #4 Stopwords
         stopwords = nltk.corpus.stopwords.words('english')
         self.stopwords = stopwords
         #defining the function to remove stopwords from tokenized text
@@ -84,7 +84,7 @@ class BRetrievalSystem:
 
     #
 
-    #Building of the Positional Inverted Index
+    #Building the Positional Inverted Index
     def inv_index_pos_builder(self):
         print('Building Positional Inverted Index...')
 
@@ -178,7 +178,7 @@ class BRetrievalSystem:
 
         print(str(len(self.inv_index_pos)) + ' nodes in the tree')
         #t is selected in proportion to the number of nodes
-        #n = number of nodes, t = max keys
+        #n = number of keys
         #n = 2*t-1
         #t = (n+1)/2
         #for now, I set t = 32
@@ -193,14 +193,13 @@ class BRetrievalSystem:
 
     #
 
-    ### Search possible results for the query! ###
+    ### Search possible results of the query! ###
     def print_result(self, inp_query):
 
         # All the functions defined inside this method:
 
         ### Conversion of the query, from string to the 3 vectors ###
         def conversion_query(inp_query, query, op_query, op_not):
-            #query_el = 0
             word = ''
             is_not = 0
             arraywords = []
@@ -229,7 +228,7 @@ class BRetrievalSystem:
                             arraywords = []
                         word = ''
 
-                        ### Boolean Operations ###
+        ### Boolean Operations ###
         def and_function(list1, list2):
             result = []
             i = 0
@@ -313,6 +312,8 @@ class BRetrievalSystem:
 
         ###Wildcard Operations###
 
+
+        #Check if a term is wildcard
         def is_wildcard(term):
             i = 0
             result = False
@@ -323,7 +324,7 @@ class BRetrievalSystem:
                 i+=1
             return result
 
-        #
+        # From a set of rotations of a term, get the one with '*' at the end
         def get_ending_wildcard(rotations):
             i = 0
             ending_wildcard = ''
@@ -334,7 +335,7 @@ class BRetrievalSystem:
                 i+=1
             return ending_wildcard
 
-        #ho le rotations di un termine, true se esiste una rotazione che matcha con il wildcard con '*' alla fine
+        # it returns true if there exists a wildcard with '*' at the end matching the ending wildcard
         def matching_term_wildcard(rotations, ending_wildcard):
             i = 0
             result = False
@@ -347,7 +348,7 @@ class BRetrievalSystem:
                 i+=1
             return result
 
-        #ho le rotations di un termine, true se la rotazione che è lessicograficamente maggiore con il wildcard con '*' alla fine
+        # it returns True if there exists a rotation that is greater than the ending wildcard (matching)
         def greater_term_wildcard(rotations, ending_wildcard):
             i = 0
             result = False
@@ -369,12 +370,12 @@ class BRetrievalSystem:
                     if (rotations[i] > ending_wildcard):
                         result = True
                         break
-
                 i+=1
                 j-=1
             return result
 
 
+        #Is just a single wildcard? I count the number of '*'
         def is_single_wildcard(wildcard):
             count_star = 0
             for i in wildcard:
@@ -384,6 +385,10 @@ class BRetrievalSystem:
             return (count_star==1)
 
 
+        #It applies the concept of "String Matching"
+        #Scanning of both term and wildcard.
+        #It check if each "piece" between the '*' is matching between the two.
+        #It stores in a bit vector the matching of the 'pieces', 1=matching, 0=not matching
         def matching_generic_wildcard(term, wildcard):
             i = 0  #term
             j = 0  #wildcard
@@ -431,7 +436,7 @@ class BRetrievalSystem:
 
             return (sum(vector_piece_wildcard) == len_piece_wildcard)
 
-
+        #Rotations of the term
         def rotation(term):
             rotations = []
             new_el = term+'$'
@@ -485,28 +490,29 @@ class BRetrievalSystem:
             m = len(str1)
             n = len(str2)
 
-            # Creazione della matrice di dimensioni (m+1) x (n+1)
-            dp = [[0] * (n + 1) for _ in range(m + 1)]
+            # Creation of the matrix (m+1) x (n+1)
+            dp = [[0] * (n+1) for _ in range(m + 1)]
 
-            # Inizializzazione della prima riga e della prima colonna della matrice
-            for i in range(m + 1):
+            # Initialize first column and row
+            for i in range(m+1):
                 dp[i][0] = i
-            for j in range(n + 1):
+            for j in range(n+1):
                 dp[0][j] = j
 
-            # Calcolo della distanza di modifica
+            # Compute edit distance applying the rules
             for i in range(1, m + 1):
                 for j in range(1, n + 1):
                     if str1[i - 1] == str2[j - 1]:
                         dp[i][j] = dp[i - 1][j - 1]
                     else:
-                        dp[i][j] = min(dp[i - 1][j] + 1,      # Eliminazione
-                                       dp[i][j - 1] + 1,      # Inserimento
-                                       dp[i - 1][j - 1] + 1)  # Sostituzione
+                        dp[i][j] = min(dp[i - 1][j] + 1,      # Delete
+                                       dp[i][j - 1] + 1,      # Insert
+                                       dp[i - 1][j - 1] + 1)  # Replace
 
             return dp[m][n]
 
 
+        #Search of the closest term of a query element, with min edit distance and high frequency
         def search_closest(query_element):
             closest_term = ''
             edit_distances = []
