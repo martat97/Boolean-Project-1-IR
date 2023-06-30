@@ -595,7 +595,7 @@ class BRetrievalSystem:
                         result = []
                         break
 
-                        #Term/terms matching something, I compare them with the previous terms in the phrase,
+                #Term/terms matching something, I compare them with the previous terms in the phrase,
                 #to see if the positions are adjacent
                 #(remember that with wildcards I can obtain multiple terms)
                 else:
@@ -648,7 +648,7 @@ class BRetrievalSystem:
                 for el in result_phrase:
                     actual_result.append(el[0])
 
-                    #Remove eventual duplicates from actual_result and Sort it (to be sure and avoid possible exceptions)
+            #Remove eventual duplicates from actual_result and Sort it (to be sure and avoid possible exceptions)
             actual_result[:] = [x for i, x in enumerate(actual_result) if i == actual_result.index(x)]
             actual_result.sort()
 
@@ -671,7 +671,7 @@ class BRetrievalSystem:
                     result = or_function(result,actual_result)
 
 
-                    #I print the final document matching
+        #I print the final document matching
         print("Documents matching the query:")
         print(result) #I print the list of documents
 
