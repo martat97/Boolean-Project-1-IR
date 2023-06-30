@@ -24,7 +24,6 @@ Run main.py to execute the program.
 2. MAIN INPUT DATASET
 You have to put in input the location of the dataset and the column of the dataset that will be used to create the index
 Run main_input_dataset.py to execute the program.
-Libraries: [numpy, pandas, nltk] must be installed to run the program
 
 3. TESTS
 There are three different kind of tests that were used to test the system (originally created on jupyter notebook):
