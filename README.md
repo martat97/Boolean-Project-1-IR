@@ -28,6 +28,7 @@ Libraries: [numpy, pandas, nltk] must be installed to run the program
 
 3. TESTS
 There are three different kind of tests that were used to test the system (originally created on jupyter notebook):
-Functionalities
+Functionalities (test if the program actually works), Effectiveness (precision and recall measures), Performance (timing measures).
+Tests can be run on jupyter notebook
 
 
