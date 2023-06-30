@@ -1,4 +1,6 @@
 import pandas as pd
+
+
 # Create a node
 class BTreeNode:
     def __init__(self, leaf=False):
@@ -72,26 +74,25 @@ class BTree:
     # Scan all the tree to find nodes satisying the condition
     def scan_tree(self, x, column, function1, function2, wildcard, result, l=0):
         child_to_visit = []
-        for i in range(0,len(x.keys)):
+        for i in range(0, len(x.keys)):
             if function1(x.keys[i][column], wildcard):
                 result = pd.concat([result, pd.DataFrame([x.keys[i]], columns=['term', 'docId', 'rotations'])])
                 child_to_visit.append(i)
-                if(i == len(x.keys)-1):
-                    child_to_visit.append(i+1)
+                if (i == len(x.keys) - 1):
+                    child_to_visit.append(i + 1)
             else:
-                #greater
+                # greater
                 if function2(x.keys[i][column], wildcard):
                     child_to_visit.append(i)
                     break
                 else:
-                    if(i == len(x.keys)-1):
-                        child_to_visit.append(i+1)
+                    if (i == len(x.keys) - 1):
+                        child_to_visit.append(i + 1)
         if (len(x.child) > 0):
             for i in child_to_visit:
                 result = self.scan_tree(x.child[i], column, function1, function2, wildcard, result)
 
         return result
-
 
     def scan_all_tree(self, x, column, function, wildcard, result):
         for row in x.keys:
@@ -104,7 +105,6 @@ class BTree:
 
         return result
 
-
     # Search key in the tree
     def search_key(self, k, result, x=None):
         if x is not None:
@@ -112,7 +112,7 @@ class BTree:
             while i < len(x.keys) and k > x.keys[i][0]:
                 i += 1
             if i < len(x.keys) and k == x.keys[i][0]:
-                return pd.concat([result, pd.DataFrame( [x.keys[i]], columns=['term', 'docId', 'rotations'])])
+                return pd.concat([result, pd.DataFrame([x.keys[i]], columns=['term', 'docId', 'rotations'])])
             elif x.leaf:
                 return result
             else:
@@ -122,43 +122,34 @@ class BTree:
             return self.search_key(k, result, self.root)
 
 
-
 def main():
-
-    #2*t-1 keys
-    #t = ..
+    # 2*t-1 keys
+    # t = ..
     B = BTree(2)
-    paroles = pd.DataFrame({"term": ['abac','bello','belli','ciao','basso','zattera', 'bobo', 'giostra'], "docId": ['1','2','3','4','5','6','7','8'],
-                            "rotations": ['','','','','','','','']})
-    #print(paroles.iloc[0]['term'])
+    paroles = pd.DataFrame({"term": ['abac', 'bello', 'belli', 'ciao', 'basso', 'zattera', 'bobo', 'giostra'],
+                            "docId": ['1', '2', '3', '4', '5', '6', '7', '8'],
+                            "rotations": ['', '', '', '', '', '', '', '']})
+    # print(paroles.iloc[0]['term'])
 
+    # parole = ['marta','mary','merenda','mestolo','mesopotamia','mossa','mosse','mulo','mini','morata','sturare', 'zuzzo']
 
-    #parole = ['marta','mary','merenda','mestolo','mesopotamia','mossa','mosse','mulo','mini','morata','sturare', 'zuzzo']
-
-    for i in range(0,len(paroles)):
-        B.insert(paroles.iloc[i],'term')
-
+    for i in range(0, len(paroles)):
+        B.insert(paroles.iloc[i], 'term')
 
     B.print_tree(B.root)
 
-    actual_term_phrase = pd.DataFrame(columns=['term','docId','rotations'])
+    actual_term_phrase = pd.DataFrame(columns=['term', 'docId', 'rotations'])
     key_s = 'basso'
     print(B.search_key(key_s, actual_term_phrase))
-    #if B.search_key(key_s) is not None:
+    # if B.search_key(key_s) is not None:
     #    print("\nFound")
-    #else:
+    # else:
     #    print("\nNot Found")
 
-    #result = pd.DataFrame({"term": [], "docId": [], "rotations":[]})
-    #result = B.scan_tree(B.root, 'term', equals, greater,'zu', result)
-    #print(result)
+    # result = pd.DataFrame({"term": [], "docId": [], "rotations":[]})
+    # result = B.scan_tree(B.root, 'term', equals, greater,'zu', result)
+    # print(result)
+
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
-
