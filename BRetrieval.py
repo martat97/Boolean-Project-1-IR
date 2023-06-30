@@ -531,7 +531,7 @@ class BRetrievalSystem:
             #I take the term with high absolute frequency in documents
             max_frequency = 0
             for element_pos in min_edit_vector:
-                row = self.inv_index_pos.iloc[element_pos] #same complexity as scanning btree
+                row = self.inv_index_pos.iloc[element_pos] #same complexity as scanning entire btree
                 frequency = 0
                 for doc in row['docId']:
                     frequency = frequency + (int(doc[0])*len(doc[1]))
