@@ -61,7 +61,7 @@ def main():
 
     while True:
         try:
-            brs = bre.BRetrievalSystem(data, input_column, 1000) #default length
+            brs = bre.BRetrievalSystem(data, input_column, 1000) #default length chosen
             break
         except:
             print('Unable to create the IR system properly')
