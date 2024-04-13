@@ -1,4 +1,4 @@
-# Boolean Project #1 IR 2022/23 - Marta Tosolini
+# Boolean Project - Information Retrieval - Marta Tosolini
 
 ## Main Functionalities
 
